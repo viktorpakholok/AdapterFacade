@@ -12,8 +12,16 @@ import ua.edu.ucu.apps.task1.twitter.TwitterUser;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        User xUser = new MyTwitterUser(new TwitterUser("dobosevych.gmail.com", TwitterCountry.UKRAINE, LocalDate.now()));
-        User facebookUser = new MyFacebookUser(new FacebookUser("dobosevych.gmail.com", "Ukraine", LocalDate.now()));
+        User xUser = new MyTwitterUser(
+            new TwitterUser(
+                "dobosevych.gmail.com", TwitterCountry.UKRAINE, LocalDate.now()
+            )
+        );
+        User facebookUser = new MyFacebookUser(
+            new FacebookUser(
+                "dobosevych.gmail.com", "Ukraine", LocalDate.now()
+            )
+        );
     }
 
     public static void processInformation(User user) {

@@ -1,0 +1,3 @@
+<suppressions>
+    <suppress files=".*task2/.*" checks="LocalFinalVariableName"/>
+</suppressions>

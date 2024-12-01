@@ -1,6 +1,6 @@
 package ua.edu.ucu.apps.task2;
 
-public class DB extends БазаДаних{
+public class DB extends БазаДаних {
     public String getUserData() {
         return super.отриматиДаніКористувача();
     }

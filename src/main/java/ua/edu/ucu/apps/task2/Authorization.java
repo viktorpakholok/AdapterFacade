@@ -1,6 +1,6 @@
 package ua.edu.ucu.apps.task2;
 
-public class Authorization extends Авторизація{
+public class Authorization extends Авторизація {
     public boolean authorize(DB db) {
         return super.авторизуватися(db);
     }
