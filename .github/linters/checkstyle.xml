@@ -28,6 +28,10 @@
         <property name="ignorePattern" value="^ *\* *[^ ]+$"/>
     </module>
 
+    <module name="SuppressionFilter">
+        <property name="file" value=".github/linters/suppressions.xml" />
+    </module>
+
 
     <!-- =========================================================================== -->
     <!-- =========================================================================== -->
@@ -37,9 +41,6 @@
 
     <module name="TreeWalker">
 
-        <module name="SuppressionFilter">
-            <property name="file" value="./.github/linters/suppressions.xml" />
-        </module>
 
         <!-- =========================================================================== -->
         <!-- Check for annotations                                                       -->
