@@ -15,7 +15,7 @@ public class PDLReader {
     public static void main(String[] args) throws IOException {
 
         Dotenv dotenv = Dotenv.load();
-        String API_KEY = dotenv.get("API_KEY");
+        String apiKey = dotenv.get("API_KEY");
 
         URL url = new URL(
         "https://api.peopledatalabs.com/v5/company/enrich?website=ucu.edu.ua"
@@ -23,7 +23,7 @@ public class PDLReader {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("X-Api-Key", API_KEY);
+        connection.setRequestProperty("X-Api-Key", apiKey);
         connection.connect();
 
         String text = new Scanner(connection.getInputStream())

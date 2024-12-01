@@ -4,4 +4,5 @@
 
 <suppressions>
     <suppress files=".*task2/.*" checks="LocalFinalVariableName"/>
+    <suppress files=".*task2/.*" checks="LocalVariableName"/>
 </suppressions>
