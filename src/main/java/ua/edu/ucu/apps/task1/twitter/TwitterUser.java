@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter @AllArgsConstructor
-public class XUser {
-    private String email;
-    private XCountry userCountry;
-    private LocalDate userActiveTime;
+public class TwitterUser {
+    private String userMail;
+    private TwitterCountry country;
+    private LocalDate lastActiveTime;
 }

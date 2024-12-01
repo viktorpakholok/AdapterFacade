@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter @AllArgsConstructor
 public class FacebookUser {
-    private String userEmail;
-    private String country;
-    private LocalDate lastActiveTime;
+    private String email;
+    private String userCountry;
+    private LocalDate userActiveTime;
 }

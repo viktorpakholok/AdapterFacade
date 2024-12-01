@@ -13,17 +13,17 @@ public class MyFacebookUser implements User {
 
     @Override
     public String getEmail() {
-        return facebookUser.getUserEmail();
+        return facebookUser.getEmail();
     }
 
     @Override
     public String getCountry() {
-        return facebookUser.getCountry();
+        return facebookUser.getUserCountry().toString();
     }
 
     @Override
     public LocalDate getLastActiveTime() {
-        return facebookUser.getLastActiveTime();
+        return facebookUser.getUserActiveTime();
     }
 
 }
