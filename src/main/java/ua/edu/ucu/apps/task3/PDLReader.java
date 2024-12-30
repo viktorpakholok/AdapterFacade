@@ -6,30 +6,69 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-// import java.net.URLEncoder;
-// import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-public class PDLReader {
-    public static void main(String[] args) throws IOException {
+public class PDLReader implements InfoExtractor {
 
-        Dotenv dotenv = Dotenv.load();
-        String apiKey = dotenv.get("API_KEY");
+    private static final Dotenv DOT_ENV = Dotenv.load();
+    private static final String API_KEY = DOT_ENV.get("PDL_API_KEY");
 
-        URL url = new URL(
-        "https://api.peopledatalabs.com/v5/company/enrich?website=ucu.edu.ua"
-        );
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    private static final String API_URL 
+    = "https://api.peopledatalabs.com/v5/company/enrich?website=";
 
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("X-Api-Key", apiKey);
-        connection.connect();
+    @Override
+    public Company extractInfo(String website) {
 
-        String text = new Scanner(connection.getInputStream())
-        .useDelimiter("\\Z").next();
+        String text = null;
 
-        JSONObject jsonObject = new JSONObject(text);
-        System.out.println(jsonObject);
+        try {
+
+            URL inputUrl = new URL(website);
+            String domain = inputUrl.getHost();
+
+            URL url = new URL(API_URL + domain);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("X-Api-Key", API_KEY);
+
+            text = new Scanner(connection.getInputStream())
+            .useDelimiter("\\Z").next();
+
+        }
+        
+        catch (MalformedURLException e) {
+            System.err.println("Invalid URL: " + e.getMessage());
+            return new Company();
+    
+        }
+        
+        catch (IOException e) {
+            System.err.println("Error during HTTP request: " + e.getMessage());
+            return new Company();
+
+        }
+
+        if (text != null) {
+            JSONObject jsonObject = new JSONObject(text);
+            return createCompanyFromJson(jsonObject);
+        }
+
+        return new Company();
+    }
+
+    private Company createCompanyFromJson(JSONObject jsonObject) {
+
+        Company company = new Company();
+        company.setName(jsonObject.optString("name", "Nan"));
+        company.setDescription(jsonObject.optString("summary", "Nan"));
+        
+        return company;
+    }
+
+    @Override
+    public String getExtractionMethodName() {
+        return "PDL Reader";
     }
 }
