@@ -29,7 +29,10 @@ public class PDLReader implements InfoExtractor {
             String domain = inputUrl.getHost();
 
             URL url = new URL(API_URL + domain);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            
+            HttpURLConnection connection = (HttpURLConnection) url
+            .openConnection();
+            
             connection.setRequestMethod("GET");
             connection.setRequestProperty("X-Api-Key", API_KEY);
 

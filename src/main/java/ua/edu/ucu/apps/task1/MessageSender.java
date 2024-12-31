@@ -8,9 +8,12 @@ import ua.edu.ucu.apps.task1.myuser.User;
 
 public class MessageSender {
 
+    private static final int secondsInHour = 3600;
+
     public void send(String text, List<User> users, String country) {
         for (User user : users) {
-            if (Duration.between(LocalDate.now(), user.getLastActiveTime()).toSeconds() > 3600) {
+            if (Duration.between(LocalDate.now(), user.getLastActiveTime())
+            .toSeconds() > secondsInHour) {
                 continue;
             }
 

@@ -15,28 +15,35 @@ public class CompanyInfoExtraction {
 
     public Company extractInfo(String companyToFind) {
 
-        List<InfoExtractor> infoExtractors = List.of(pdlReader, scraperAndAi, brandfetch);
+        List<InfoExtractor> infoExtractors 
+        = List.of(pdlReader, scraperAndAi, brandfetch);
 
         Company resCompany = new Company();
 
         for (InfoExtractor infoExtractor : infoExtractors) {
 
             Company company = infoExtractor.extractInfo(companyToFind);
-            String fromInfo = " (from " + infoExtractor.getExtractionMethodName() + ")";
+            String fromInfo 
+            = " (from " + infoExtractor.getExtractionMethodName() + ")";
 
-            if (resCompany.getName().equals("NaN") && !company.getName().equals("NaN")) {
+            if (resCompany.getName().equals("NaN") 
+            && !company.getName().equals("NaN")) {
                 resCompany.setName(company.getName() + fromInfo);
             }
 
-            if (resCompany.getDescription().equals("NaN") && !company.getDescription().equals("NaN")) {
+            if (resCompany.getDescription().equals("NaN") 
+            && !company.getDescription().equals("NaN")) {
                 resCompany.setDescription(company.getDescription() + fromInfo);
             }
 
-            if (resCompany.getLogo().equals("NaN") && !company.getLogo().equals("NaN")) {
+            if (resCompany.getLogo().equals("NaN") 
+            && !company.getLogo().equals("NaN")) {
                 resCompany.setLogo(company.getLogo() + fromInfo);
             }
 
-            if (!resCompany.getName().equals("NaN") && !resCompany.getDescription().equals("NaN") && !resCompany.getLogo().equals("NaN")) {
+            if (!resCompany.getName().equals("NaN") 
+            && !resCompany.getDescription().equals("NaN") 
+            && !resCompany.getLogo().equals("NaN")) {
                 break;
             }
         }

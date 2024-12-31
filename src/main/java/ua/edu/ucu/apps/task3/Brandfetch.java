@@ -13,7 +13,9 @@ public class Brandfetch implements InfoExtractor {
 
     private static final Dotenv DOT_ENV = Dotenv.load();
     private static final String API_KEY = DOT_ENV.get("BRANDFETCH_API_KEY");
-    private static final String API_URL = "https://api.brandfetch.io/v2/brands/";
+    
+    private static final String API_URL 
+    = "https://api.brandfetch.io/v2/brands/";
 
     @Override
     public Company extractInfo(String website) {
@@ -48,25 +50,20 @@ public class Brandfetch implements InfoExtractor {
     private Company parseResponse(JsonNode jsonNode) {
         Company company = new Company();
 
-        try {
-            JSONObject jsonResponse = jsonNode.getObject();
+        JSONObject jsonResponse = jsonNode.getObject();
 
-            if (!jsonResponse.optString("name").equals("")) {
-                company.setName(jsonResponse.optString("name"));
-            }            
-            company.setDescription(jsonResponse.optString("description"));
+        if (!jsonResponse.optString("name").equals("")) {
+            company.setName(jsonResponse.optString("name"));
+        }            
+        company.setDescription(jsonResponse.optString("description"));
 
-            if (jsonResponse.has("logos")) {
-                String logoUrl = jsonResponse.getJSONArray("logos")
-                    .getJSONObject(0)
-                    .getJSONArray("formats")
-                    .getJSONObject(0)
-                    .getString("src");
-                company.setLogo(logoUrl);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error parsing Brandfetch response: " + e.getMessage());
+        if (jsonResponse.has("logos")) {
+            String logoUrl = jsonResponse.getJSONArray("logos")
+                .getJSONObject(0)
+                .getJSONArray("formats")
+                .getJSONObject(0)
+                .getString("src");
+            company.setLogo(logoUrl);
         }
 
         return company;

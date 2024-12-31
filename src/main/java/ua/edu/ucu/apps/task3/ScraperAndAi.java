@@ -36,7 +36,10 @@ public class ScraperAndAi implements InfoExtractor {
         }
 
         String prompt = String.format(
-                "Extract the following information from the website content '%s': name, description, and logo URL. Return the result in JSON format with keys 'name', 'description', and 'logo'.",
+                "Extract the following information from the website " 
+                + "content '%s': name, description, and logo URL. Return" 
+                + " the result in JSON format with keys 'name', " 
+                + "'description', and 'logo'.",
                 scrapedContent
         );
 
@@ -45,7 +48,8 @@ public class ScraperAndAi implements InfoExtractor {
         JSONArray messages = new JSONArray();
         messages.put(new JSONObject()
                 .put("role", "system")
-                .put("content", "You are a helpful assistant specialized in extracting company information."));
+                .put("content", "You are a helpful assistant " 
+                + "specialized in extracting company information."));
         messages.put(new JSONObject()
                 .put("role", "user")
                 .put("content", prompt));
@@ -75,12 +79,16 @@ public class ScraperAndAi implements InfoExtractor {
                 JSONArray choices = responseJson.getJSONArray("choices");
 
                 if (choices.length() > 0) {
-                    String content = choices.getJSONObject(0).getJSONObject("message").getString("content");
+                    String content = choices.getJSONObject(0)
+                    .getJSONObject("message").getString("content");
 
                     JSONObject companyInfo = new JSONObject(content);
 
                     String name = companyInfo.optString("name", "NaN");
-                    String description = companyInfo.optString("description", "NaN");
+
+                    String description = companyInfo
+                    .optString("description", "NaN");
+
                     String logo = companyInfo.optString("logo", "NaN");
 
                     return new Company(name, description, logo);
@@ -108,10 +116,14 @@ public class ScraperAndAi implements InfoExtractor {
 
             Document doc = Jsoup.connect(website).get();
             String title = doc.title();
-            String description = doc.select("meta[name=description]").attr("content");
+
+            String description = doc.select("meta[name=description]")
+            .attr("content");
 
             String logoImage = "NaN";
-            Element logoElement = doc.selectFirst("img[class*=logo], img[id*=logo]");
+            
+            Element logoElement = doc
+            .selectFirst("img[class*=logo], img[id*=logo]");
 
             if (logoElement != null) {
                 logoImage = logoElement.attr("src");
@@ -123,7 +135,8 @@ public class ScraperAndAi implements InfoExtractor {
             }
 
             String content = doc.body().text();
-            return "Title: " + title + "\nDescription: " + description + "\nLogo URL: " + logoImage + "\nContent: " + content;
+            return "Title: " + title + "\nDescription: " + description 
+            + "\nLogo URL: " + logoImage + "\nContent: " + content;
         } 
         
         catch (IOException e) {
