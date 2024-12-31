@@ -15,6 +15,7 @@ import org.jsoup.nodes.Element;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class ScraperAndAi implements InfoExtractor {
     private static final Dotenv DOT_ENV = Dotenv.load();
@@ -43,7 +44,7 @@ public class ScraperAndAi implements InfoExtractor {
                 scrapedContent
         );
 
-        System.out.println(prompt);
+        // System.out.println(prompt);
 
         JSONArray messages = new JSONArray();
         messages.put(new JSONObject()
@@ -71,10 +72,10 @@ public class ScraperAndAi implements InfoExtractor {
                 .post(body)
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful() && response.body() != null) {
+        try (Response RESPONSE = client.newCall(request).execute()) {
+            if (RESPONSE.isSuccessful() && RESPONSE.body() != null) {
 
-                String responseBody = response.body().string();
+                String responseBody = RESPONSE.body().string();
                 JSONObject responseJson = new JSONObject(responseBody);
                 JSONArray choices = responseJson.getJSONArray("choices");
 
@@ -96,9 +97,9 @@ public class ScraperAndAi implements InfoExtractor {
             }
 
             else {
-                System.out.println("Request failed: " + response.code());
-                if (response.body() != null) {
-                    System.out.println(response.body().string());
+                System.out.println("Request failed: " + RESPONSE.code());
+                if (RESPONSE.body() != null) {
+                    System.out.println(RESPONSE.body().string());
                 }
             }
         }
@@ -150,7 +151,7 @@ public class ScraperAndAi implements InfoExtractor {
             java.net.URL url = new java.net.URL(website);
             return url.getProtocol() + "://" + url.getHost();
         }
-        catch (Exception e) {
+        catch (MalformedURLException e) {
             System.out.println("Error extracting base URL: " + e.getMessage());
             return website;
         }
